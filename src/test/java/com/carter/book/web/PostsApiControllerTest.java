@@ -3,7 +3,6 @@ package com.carter.book.web;
 import com.carter.book.domain.posts.Posts;
 import com.carter.book.domain.posts.PostsRepository;
 import com.carter.book.web.dto.PostsRequestDto;
-import com.carter.book.web.dto.PostsResponseDto;
 import com.carter.book.web.dto.PostsUpdateRequestDto;
 import java.util.List;
 import org.junit.After;
@@ -56,14 +55,14 @@ public class PostsApiControllerTest {
 
         // then
         assertNotNull(responseEntity);
-        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertTrue(responseEntity.getBody() > 0L);
 
         List<Posts> postsList = postsRepository.findAll();
         Posts posts = postsList.get(0);
-        assertEquals(posts.getTitle(), title);
-        assertEquals(posts.getContent(), content);
-        assertEquals(posts.getAuthor(), author);
+        assertEquals(title, posts.getTitle());
+        assertEquals(content, posts.getContent());
+        assertEquals(author, posts.getAuthor());
     }
 
     @Test
@@ -91,12 +90,12 @@ public class PostsApiControllerTest {
         ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
 
         // then
-        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertTrue(responseEntity.getBody() > 0L);
 
         List<Posts> all = postsRepository.findAll();
-        assertEquals(all.get(0).getTitle(), expectedTitle);
-        assertEquals(all.get(0).getContent(), expectedContent);
+        assertEquals(expectedTitle, all.get(0).getTitle());
+        assertEquals(expectedContent, all.get(0).getContent());
     }
 
     @Test
@@ -108,7 +107,7 @@ public class PostsApiControllerTest {
                                                     .author("author").build());
 
         List<Posts> postsList = postsRepository.findAll();
-        assertEquals(postsList.size(), 1);
+        assertEquals(1, postsList.size());
 
         String url = String.format("http://localhost:%d/api/v1/posts/%d", port, savedPosts.getId());
 
@@ -117,6 +116,6 @@ public class PostsApiControllerTest {
 
         // then
         postsList = postsRepository.findAll();
-        assertEquals(postsList.size(), 0);
+        assertEquals(0, postsList.size());
     }
 }

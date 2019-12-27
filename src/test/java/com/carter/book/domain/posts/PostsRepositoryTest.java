@@ -2,7 +2,6 @@ package com.carter.book.domain.posts;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PostsRepositoryTest {
@@ -42,9 +40,9 @@ public class PostsRepositoryTest {
 
         // then
         Posts posts = postsList.get(0);
-        assertEquals(posts.getTitle(), title);
-        assertEquals(posts.getContent(), content);
-        assertEquals(posts.getAuthor(), author);
+        assertEquals(title, posts.getTitle());
+        assertEquals(content, posts.getContent());
+        assertEquals(author, posts.getAuthor());
     }
 
     @Test
@@ -62,8 +60,6 @@ public class PostsRepositoryTest {
 
         // then
         Posts posts = all.get(0);
-
-        log.info("createdDate: {}, modifiedDate: {}", posts.getCreatedDate(), posts.getModifiedDate());
 
         assertTrue(posts.getCreatedDate().isAfter(now));
         assertTrue(posts.getModifiedDate().isAfter(now));
