@@ -3,6 +3,9 @@
 .gradle
 build
 
-# IntelliJ project files
+### IntelliJ project files
 .idea
 out
+
+### oauth files
+application-oauth.yaml
