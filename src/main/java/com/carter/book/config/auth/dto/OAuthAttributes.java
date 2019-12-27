@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Getter
 public class OAuthAttributes {
     private Map<String, Object> attributes;
@@ -35,8 +34,6 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
-
-        log.info("naver response: {}", response);
 
         return OAuthAttributes.builder()
             .name((String) response.get("name"))
