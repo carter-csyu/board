@@ -98,4 +98,25 @@ public class PostsApiControllerTest {
         assertEquals(all.get(0).getTitle(), expectedTitle);
         assertEquals(all.get(0).getContent(), expectedContent);
     }
+
+    @Test
+    public void Posts_삭제된다() throws Exception {
+        // given
+        Posts savedPosts = postsRepository.save(Posts.builder()
+                                                    .title("title")
+                                                    .content("content")
+                                                    .author("author").build());
+
+        List<Posts> postsList = postsRepository.findAll();
+        assertEquals(postsList.size(), 1);
+
+        String url = String.format("http://localhost:%d/api/v1/posts/%d", port, savedPosts.getId());
+
+        // when
+        restTemplate.delete(url);
+
+        // then
+        postsList = postsRepository.findAll();
+        assertEquals(postsList.size(), 0);
+    }
 }
