@@ -5,7 +5,9 @@ import com.carter.book.domain.user.User;
 import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 public class OAuthAttributes {
     private Map<String, Object> attributes;
@@ -25,7 +27,24 @@ public class OAuthAttributes {
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
+        if ("naver".equals(registrationId)) {
+            return ofNaver("id", attributes);
+        }
         return ofGoogle(userNameAttributeName, attributes);
+    }
+
+    private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+
+        log.info("naver response: {}", response);
+
+        return OAuthAttributes.builder()
+            .name((String) response.get("name"))
+            .email((String) response.get("email"))
+            .picture((String) response.get("profileImage"))
+            .attributes(response)
+            .nameAttributeKey(userNameAttributeName)
+            .build();
     }
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
