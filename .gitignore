@@ -8,5 +8,5 @@ build
 out
 
 ### oauth files
-application-oauth.yaml
-application-prod-db.yaml
+application-oauth.yml
+application-prod-db.yml
