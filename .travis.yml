@@ -1,0 +1,17 @@
+language: java
+jdk:
+  - openjdk8
+branch:
+  only:
+    - master
+# Travis CI Repository
+cache:
+  directories:
+    - $HOME/.m2/repository
+    - $HOME/.gradle
+script: ./gradlew clean build
+# notifications
+notifications:
+  email:
+    recipients:
+      - chunsang.yu@gmail.com
