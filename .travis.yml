@@ -1,15 +1,35 @@
 language: java
 jdk:
   - openjdk8
+
+# branches
 branch:
   only:
     - master
+
 # Travis CI Repository
 cache:
   directories:
     - $HOME/.m2/repository
     - $HOME/.gradle
 script: ./gradlew clean build
+
+# deploy
+before_deploy:
+  - zip -r board *
+  - mkdir -p deploy
+  - mv board.zip deploy/board.zip
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings variable
+    secret_access_key: $AWS_SECRET_KEY # Travis repo settings variable
+    bucket: board-build
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private # zip 파일 접근을 private 로 설정
+    local_dir: deploy # before_deploy 에서 생성한 디렉토리
+    wait-until-deployed: true
+
 # notifications
 notifications:
   email:
